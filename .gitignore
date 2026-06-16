@@ -15,3 +15,4 @@ dist/openmp.xcframework
 .vscode/
 *.swp
 *.swo
+/.swiftpm

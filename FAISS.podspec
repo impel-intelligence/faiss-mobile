@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  version              = "1.14.1"
+  version              = "1.14.3"
   s.name               = "FAISS"
   s.version            = "#{version}"
   s.description        = "Faiss is a library — developed by Facebook AI — that enables efficient similarity search. So, given a set of vectors, we can index them using Faiss — then using another vector (the query vector), we search for the most similar vectors within the index."

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-OPENMP_VERSION="16.0.5"
-OPENMP_URL="https://github.com/eugenehp/openmp-mobile/releases/download/v$OPENMP_VERSION/openmp.xcframework.zip"
+OPENMP_VERSION="21.1.8"
+OPENMP_URL="https://github.com/impel-intelligence/openmp-mobile/releases/download/v$OPENMP_VERSION/openmp.xcframework.zip"
 OPENMP_XCFRAMEWORK="openmp.xcframework"
 
 NAME="faiss"
 NAME_C="faiss_c"
-VERSION="1.14.1"
+VERSION="1.14.3"
 DIST="dist"
 BUILD="build"
 BUILD_SHARED_LIBS=OFF
@@ -34,10 +34,10 @@ PARALLEL=OFF # ON|OFF
 # SIMULATORARM64_WATCHOS
 # WATCHOS
 
-TARGETS=("13.0" "13.0" "13.0" "6.0" "6.0" "13.0" "13.0" "1.0" "1.0")
-ARCHS=("arm64;arm64e" "arm64;arm64e;x86_64" "arm64;arm64e;x86_64" "armv7k;arm64_32" "i386" "arm64" "x86_64" "arm64" "arm64")
+TARGETS=("13.0" "14.0" "13.0" "6.0" "7.0" "13.0" "14.0" "1.0" "1.0")
+ARCHS=("arm64;arm64e" "arm64;arm64e" "arm64;arm64e" "arm64_32" "arm64" "arm64" "arm64" "arm64" "arm64")
 PLATFORMS=("OS64" "SIMULATOR64" "MAC_UNIVERSAL" "WATCHOS" "SIMULATOR_WATCHOS" "TVOS" "SIMULATOR_TVOS" "VISIONOS" "SIMULATOR_VISIONOS")
-TRIPLES=("ios-arm64_arm64e" "ios-arm64_arm64e_x86_64-simulator" "macos-arm64_arm64e_x86_64" "watchos-arm64_32_armv7k" "watchos-i386-simulator" "tvos-arm64" "tvos-x86_64-simulator" "xros-arm64" "xros-arm64-simulator")
+TRIPLES=("ios-arm64_arm64e" "ios-arm64_arm64e_x86_64-simulator" "macos-arm64_arm64e_x86_64" "watchos-arm64_32_armv7k" "watchos-arm64_x86_64-simulator" "tvos-arm64" "tvos-arm64_x86_64-simulator" "xros-arm64" "xros-arm64-simulator")
 
 ROOT=$PWD
 LOGS="$ROOT/logs"
@@ -114,7 +114,8 @@ function configure() {
     cmake $NAME -G Xcode -B $BUILD_DIR -DBUILD_SHARED_LIBS=$BUILD_SHARED_LIBS -DCMAKE_TOOLCHAIN_FILE=$CMAKE_TOOLCHAIN_FILE -DCMAKE_INSTALL_PREFIX=$OUTPUT -DPLATFORM=$PLATFORM -DENABLE_BITCODE=$ENABLE_BITCODE -DENABLE_ARC=$ENABLE_ARC -DENABLE_VISIBILITY=$ENABLE_VISIBILITY -DDEPLOYMENT_TARGET=$TARGET -DARCHS=$ARCH -DFAISS_ENABLE_GPU=$FAISS_ENABLE_GPU -DFAISS_ENABLE_PYTHON=$FAISS_ENABLE_PYTHON -DBUILD_SHARED_LIBS=$BUILD_SHARED_LIBS -DFAISS_ENABLE_C_API=$FAISS_ENABLE_C_API -DCMAKE_WARN_DEPRECATED=0 -DBUILD_TESTING=OFF -DOpenMP_CXX_LIB_NAMES="libomp" \
         -DOpenMP_libomp_LIBRARY="$CMAKE_FRAMEWORK_PATH/libomp.a" \
         -DOpenMP_CXX_FLAGS="-Xpreprocessor -fopenmp -I$CMAKE_FRAMEWORK_PATH/Headers" \
-        -DCMAKE_CXX_FLAGS="-Wno-shorten-64-to-32 -Wno-deprecated-declarations" \
+        -DOpenMP_C_SPEC_DATE=202011 -DOpenMP_CXX_SPEC_DATE=202011 \
+        -DCMAKE_CXX_FLAGS="-Wno-shorten-64-to-32 -Wno-deprecated-declarations -I$CMAKE_FRAMEWORK_PATH/Headers" \
         $EXTRA_FLAGS
 }
 
@@ -173,7 +174,7 @@ function framework() {
 
     CHECKSUM_C=$(swift package compute-checksum "$FRAMEWORK_C_OUTPUT.zip")
     echo $CHECKSUM_C >$CHECKSUM_C_FILE
-    echo "$NAME_C $CHECKSUM"
+    echo "$NAME_C $CHECKSUM_C"
 
     update $CHECKSUM $CHECKSUM_C
 }

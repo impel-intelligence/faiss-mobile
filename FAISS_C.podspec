@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  version              = "1.14.1"
+  version              = "1.14.3"
   s.name               = "FAISS_C"
   s.version            = "#{version}"
   s.summary            = "FAISS C library compiled for iOS, Mac, tvOS, watchOS, visionOS"

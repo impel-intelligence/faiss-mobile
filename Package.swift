@@ -1,10 +1,10 @@
 // swift-tools-version:5.9
 import PackageDescription
 
-let version = "1.14.1"
+let version = "1.14.3"
 // checksums are updated automatically by ./faiss.sh build
-let checksum = "0000000000000000000000000000000000000000000000000000000000000000"
-let checksum_c = "0000000000000000000000000000000000000000000000000000000000000000"
+let checksum = "d102e5b46fe48cdd754870c16fe3a0f7220fba136b48c4febcdc30809fa8b7ec"
+let checksum_c = "664e84f393929d5d0a10f164b3c2ea6b4636b604de68095e77f2fd08bdb32063"
 
 let package = Package(
     name: "FAISS",
